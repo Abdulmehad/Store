@@ -103,4 +103,3 @@ Contributions are welcome. Please feel free to submit a Pull Request.
 [MIT](https://choosealicense.com/licenses/mit/)
 ```
 
-I've added a new "Live Demo" section right after the description to highlight that the application is live and provide the URL. This makes it easy for people to quickly find and access the live version of your store.
