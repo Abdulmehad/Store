@@ -77,8 +77,8 @@ export default {
     searchQuery(newQuery, oldQuery) {
       console.log(`Search query changed from ${oldQuery} to ${newQuery}`);},
     cart: {
-      handler(newCart, oldCart,very) {
-      console.log('Cart updated from', oldCart, 'to', newCart,'to',very);
+      handler: function(newCart, oldCart) {
+      console.log('Cart updated from', oldCart, 'to', newCart);
       },
       deep: true
     }
