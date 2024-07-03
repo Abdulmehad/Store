@@ -1,4 +1,4 @@
-
+![Store Cover](store.png)
 # Store
 
 A Nuxt 3-based e-commerce store application.
