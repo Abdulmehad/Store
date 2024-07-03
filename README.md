@@ -1,6 +1,28 @@
-# Nuxt 3 Minimal Starter
+![Store Cover](store.png)
+# Store
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A Nuxt 3-based e-commerce store application.
+
+## Description
+
+This project is an e-commerce store built using Nuxt 3. It provides a platform for showcasing and selling products online.
+
+## Live Demo
+
+The application is live at https://fakestoreee.netlify.app/
+
+## Features
+
+- Product listing
+- Shopping cart functionality
+- Search functionality
+- Responsive design
+
+## Technologies Used
+
+- Nuxt 3
+- Vue.js
+- TypeScript
 
 ## Setup
 
@@ -22,7 +44,7 @@ bun install
 
 ## Development Server
 
-Start the development server on `http://localhost:3000`:
+Start the development server on http://localhost:3000:
 
 ```bash
 # npm
@@ -72,4 +94,12 @@ yarn preview
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Contributing
+
+Contributions are welcome. Please feel free to submit a Pull Request.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+```
+
