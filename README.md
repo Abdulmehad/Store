@@ -7,6 +7,10 @@ A Nuxt 3-based e-commerce store application.
 
 This project is an e-commerce store built using Nuxt 3. It provides a platform for showcasing and selling products online.
 
+## Live Demo
+
+The application is live at https://fakestoreee.netlify.app/
+
 ## Features
 
 - Product listing
@@ -99,4 +103,4 @@ Contributions are welcome. Please feel free to submit a Pull Request.
 [MIT](https://choosealicense.com/licenses/mit/)
 ```
 
-This README provides a brief description of the project, lists its main features, explains the technologies used, and provides instructions for setup, development, and production. It also includes sections for contributing and licensing. You may want to customize this further based on specific details of your project.
+I've added a new "Live Demo" section right after the description to highlight that the application is live and provide the URL. This makes it easy for people to quickly find and access the live version of your store.
