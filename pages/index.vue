@@ -75,19 +75,19 @@ export default {
   },
   watch: {
     searchQuery(newQuery, oldQuery) {
-      console.log(`Search query changed from ${oldQuery} to ${newQuery}`);
-    },
+      console.log(`Search query changed from ${oldQuery} to ${newQuery}`);},
     cart: {
-      handler(newCart) {
-        console.log('Cart updated to', newCart);
+      handler(newCart, oldCart,very) {
+      console.log('Cart updated from', oldCart, 'to', newCart,'to',very);
       },
       deep: true
     }
-  },
+  
+},
   mounted() {
     this.fetchProducts();
   }
-};
+}
 </script>
 
 <style>
