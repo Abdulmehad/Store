@@ -3,7 +3,6 @@
     <title>Shopping Area</title>
     <h1 class="t">Welcome to XYZ store</h1>
     <searchbar @inputt="updateSearchQuery" />
-    <!-- this line listen for the input event and call the updateSearchQuery method -->
     <div class="products">
       <div v-for="data in filteredProducts" :key="data.id">
         <div class="card">
@@ -13,7 +12,8 @@
           <div class="first-content">
             <h1>{{ data.title }}</h1>
             <p><span>Price: $</span> {{ data.price }}</p>
-            <button class="addtocart" @click="addToCart(data)">Add to Cart</button>
+            <button v-if="!itemInCart(data.id)" class="addtocart" @click="addToCart(data)">Add to Cart</button>
+            <button v-else class="addtocart" @click="removeFromCart(data)">Remove Item</button>
           </div>
         </div>
       </div>
@@ -25,33 +25,34 @@
     <div v-if="showCart" class="cart-page">
       <div class="cart-page2">
         <div class="startcart">
-      <h1>Your Cart </h1>
-      <button @click="showCart = false" class="backtostore">X</button>
-    </div>
-      <div class="cartitems">
-      <div v-for="item in cart" :key="item.id" class="cart-item">
-        <img :src="item.image" :alt="item.title" class="cart-item-image">
-        <div class="cart-item-details">
-          <p>{{ item.title }}</p>
-          <p>Price: ${{ item.price }}</p>
-          <div class="quantity-control">
-            <button @click="updateQuantity(item, -1)">-</button>
-            <span>{{ item.quantity }}</span>
-            <button @click="updateQuantity(item, 1)">+</button>
+          <h1>Your Cart</h1>
+          <button @click="showCart = false" class="backtostore">X</button>
+        </div>
+        <div class="cartitems">
+          <div v-for="item in cart" :key="item.id" class="cart-item">
+            <img :src="item.image" :alt="item.title" class="cart-item-image">
+            <div class="cart-item-details">
+              <p>{{ item.title }}</p>
+              <p>Price: ${{ item.price }}</p>
+              <div class="quantity-control">
+                <button @click="updateQuantity(item, -1)">-</button>
+                <span>{{ item.quantity }}</span>
+                <button @click="updateQuantity(item, 1)">+</button>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="endcart">
+          <div class="total-price">
+            <p>Total Price: ${{ totalPrice }}</p>
+          </div>
+          <button class="gotocheckout">Go to Checkout</button>
         </div>
       </div>
     </div>
-    <div class="endcart">
-      <div class="total-price">
-        <p>Total Price: ${{ totalPrice }}</p>
-      </div>
-      <button class="gotocheckout">Go to Checkout</button>
-    </div>
-    </div>
-  </div>
   </div>
 </template>
+
 
 
 <script>
@@ -78,6 +79,9 @@ export default {
     }
   },
   methods: {
+    itemInCart(id) {
+    return this.cart.some(item => item.id === id);
+  },
     async fetchProducts() {
       const response = await fetch('https://fakestoreapi.com/products');
       const data = await response.json();
@@ -102,6 +106,9 @@ export default {
     },
     updateSearchQuery(value) {
       this.searchQuery = value; // Update searchQuery with the emitted value
+    },
+    removeFromCart(product) {
+      this.cart = this.cart.filter(item => item.id !== product.id);
     }
   },
   watch: {
