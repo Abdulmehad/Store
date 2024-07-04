@@ -1,13 +1,307 @@
 <template>
-    <div>
-        
+    <div class="container">
+      <div class="maincontainer">
+        <div class="ccart-page">
+          <div class="ccart-page2">
+            <div class="cstartcart">
+              <h1>Your Cart</h1>
+            </div>
+            <div class="ccartitems">
+              <div v-for="item in cart" :key="item.id" class="ccart-item">
+                <img :src="item.image" :alt="item.title" class="ccart-item-image">
+                <div class="ccart-item-details">
+                  <p>{{ item.title }}</p>
+                  <p>Price: ${{ item.price }}</p>
+                  <div class="cquantity-control">
+                    <button @click="updateQuantity(item, -1)">-</button>
+                    <span>{{ item.quantity }}</span>
+                    <button @click="updateQuantity(item, 1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cendcart">
+              <div class="ctotal-price">
+                <p>Total Price: ${{ totalPrice }}</p>
+              </div>
+              <nuxt-link to="/">Empty Cart & Continue Shopping</nuxt-link>
+            </div>
+          </div>
+        </div>
+        <div class="checkout">
+          <h1>Checkout</h1>
+          <form @submit.prevent="submitForm">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" v-model="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" v-model="email" required>
+            </div>
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <textarea id="address" v-model="address" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="payment">Payment Method:</label>
+              <select id="payment" v-model="paymentMethod" required>
+                <option value="">Select Payment Method</option>
+                <option value="credit">Credit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="cash">Cash on Delivery</option>
+              </select>
+            </div>
+            <button 
+      class="submit" 
+      type="submit" 
+      :disabled="!isFormValid"
+      :class="{ 'submit-disabled': !isFormValid }"
+    >
+      Place Order
+    </button>
+            
+          </form>
+        </div>
+      </div>
     </div>
-</template>
-<script>
-export default {
-    
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        cart: [],
+        totalPrice: 0,
+        name: '',
+        email: '',
+        address: '',
+        paymentMethod: ''
+      };
+    },
+    mounted() {
+      this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      this.totalPrice = localStorage.getItem('totalPrice') || 0;
+    },
+    computed: {
+      isFormValid() {
+        return this.name && this.email && this.address && this.paymentMethod;
+      }
+    },
+    methods: {
+      submitForm() {
+        if (this.isFormValid) {
+          // Process the order here (e.g., send to server)
+          window.alert('Order Placed!');
+          
+          // Clear the cart and total price from localStorage
+          localStorage.removeItem('cart');
+          localStorage.removeItem('totalPrice');
+          
+          // Navigate back to the index page
+          this.$router.push('/');
+        } else {
+          window.alert('Please fill out all fields before submitting.');
+        }
+      },
+      updateQuantity(product, amount) {
+        const cartItem = this.cart.find(item => item.id === product.id);
+        if (cartItem) {
+          cartItem.quantity += amount;
+          if (cartItem.quantity <= 0) {
+            this.cart = this.cart.filter(item => item.id !== product.id);
+          }
+          this.totalPrice = this.cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+          
+          // Update localStorage
+          localStorage.setItem('cart', JSON.stringify(this.cart));
+          localStorage.setItem('totalPrice', this.totalPrice);
+        }
+      },
+    },
+  };
+  </script>
+  
+  <style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-</script>
-<style>
-    
+.container {
+    display: flex;
+    height: 100vh;
+}
+.maincontainer {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.checkout {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #34495e;
+  z-index: 1000;
+  overflow-y: auto;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+.checkout form {
+    width: 80%;
+}
+.checkout .form-group {
+    margin-bottom: 20px;
+}
+.checkout label {
+    display: block;
+    margin-bottom: 5px;
+}
+.checkout input,
+.checkout textarea,
+.checkout select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.submit{
+  background-color: #e74c3c;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  text-decoration:none;
+    text-align: center;
+    display: inline-block;
+    position:fixed;
+    align-content: center;
+    right: 140px;
+}
+.submit:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+.ccart-page2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    background-color:whitesmoke;
+    color: #34495e;
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.cstartcart{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  background-color: whitesmoke;
+  position: fixed;
+  top: 0;
+  padding: 30px;    
+}
+.ccart-page h1 {
+  padding: 30px;
+  color: black;
+}
+.cendcart{
+  position: fixed;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: whitesmoke;
+  width: 70%;
+  padding: 20px;
+  height: auto;
+
+}
+.ctotal-price {
+  /* position: fixed; */
+  font-size: 20px;
+  font-weight: 700;
+  /* margin: 10px; */
+  /* background-color: white */
+}
+
+.ccart-item {
+  background-color: white;
+  color: #34495e;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  /* min-width: 600px; */
+}
+
+.ccart-item-image {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.ccart-item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+.cquantity-control {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.cquantity-control button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cquantity-control button:hover {
+  background-color: #2980b9;
+}
+.submit-disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.submit-disabled:hover {
+  background-color: #95a5a6;
+  transform: none;
+}
+
 </style>

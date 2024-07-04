@@ -45,8 +45,9 @@
         <div class="endcart">
           <div class="total-price">
             <p>Total Price: ${{ totalPrice }}</p>
+           
           </div>
-          <nuxt-link class="gotocheckout" to="/checkout">Go to Checkout</nuxt-link>
+          <nuxt-link @click="goToCheckout" class="gotocheckout" to="/checkout">Go to Checkout</nuxt-link>
         </div>
       </div>
     </div>
@@ -95,6 +96,16 @@ export default {
         this.cart.push({ ...product, quantity: 1 });//pushing a whole object into cart which is a product and quantity
       }
     },
+
+
+    goToCheckout() {
+  localStorage.setItem('cart', JSON.stringify(this.cart));
+  localStorage.setItem('totalPrice', this.totalPrice);
+  // this.$router.push('/checkout');
+},
+
+
+
     updateQuantity(product, amount) {//this function is only when we are in the cart section not used for adding into cart
       const cartItem = this.cart.find(item => item.id === product.id);//find method is used to find the product in the cart
       if (cartItem) {
