@@ -24,7 +24,10 @@
     </div>
     <div v-if="showCart" class="cart-page">
       <div class="cart-page2">
-      <h1>Your Cart</h1>
+        <div class="startcart">
+      <h1>Your Cart </h1>
+      <button @click="showCart = false" class="backtostore">X</button>
+    </div>
       <div class="cartitems">
       <div v-for="item in cart" :key="item.id" class="cart-item">
         <img :src="item.image" :alt="item.title" class="cart-item-image">
@@ -43,7 +46,7 @@
       <div class="total-price">
         <p>Total Price: ${{ totalPrice }}</p>
       </div>
-      <button class="backtostore" @click="showCart = false">Back to Store</button>
+      <button class="gotocheckout">Go to Checkout</button>
     </div>
     </div>
   </div>
@@ -286,16 +289,7 @@ body {
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.cart-page h1 {
-  position: fixed;
-  /* top: 10px; */
-  padding: 30px;
-  text-align: center;
-  /* z-index: 1001; */
-  background-color:white;
-  width: 29%;
-  color: black;
-}
+
 
 .cart-item {
   background-color: white;
@@ -318,7 +312,7 @@ body {
 }
 
 .cart-item-details {
-  /* flex: 1; */
+  flex: 1;
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
@@ -363,7 +357,7 @@ body {
   /* margin: 10px; */
   /* background-color: white */
 }
-.backtostore{
+.gotocheckout{
   /* position:fixed; */
   bottom: 30px;
   background-color: #e74c3c;
@@ -378,10 +372,46 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 10px;
 }
+.gotocheckout:hover{
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+.startcart{
+  display: flex;
+  justify-content: space-between;
+  width: 28%;
+  /* padding: 20px; */
+  background-color: white;
+  position: fixed;
+}
+.backtostore{
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0px;
+  position: fixed;
+  right: 15px;
+  top: 28px;
+}
 .backtostore:hover{
   background-color: #c0392b;
   transform: scale(1.05);
 }
-
+.cart-page h1 {
+  /* position: fixed; */
+  /* top: 10px; */
+  /* text-align: center; */
+  /* z-index: 1001; */
+  padding: 30px;
+  background-color:white;
+  color: black;
+}
 
 </style>
