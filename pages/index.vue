@@ -13,7 +13,7 @@
             <h1>{{ data.title }}</h1>
             <p><span>Price: $</span> {{ data.price }}</p>
             <button v-if="!itemInCart(data.id)" class="addtocart" @click="addToCart(data)">Add to Cart</button>
-            <button v-else class="addtocart" @click="removeFromCart(data)">Remove Item</button>
+            <button style="background-color: #e74c3c" v-else class="addtocart" @click="removeFromCart(data)">Remove Item</button>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
           <div class="total-price">
             <p>Total Price: ${{ totalPrice }}</p>
           </div>
-          <button class="gotocheckout">Go to Checkout</button>
+          <nuxt-link class="gotocheckout" to="/checkout">Go to Checkout</nuxt-link>
         </div>
       </div>
     </div>
@@ -309,6 +309,7 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  /* min-width: 600px; */
 }
 
 .cart-item-image {
@@ -378,6 +379,7 @@ body {
   transition: background-color 0.3s ease, transform 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 10px;
+  text-decoration: none;
 }
 .gotocheckout:hover{
   background-color: #c0392b;
