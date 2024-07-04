@@ -155,19 +155,19 @@
   overflow-y: auto;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
-.checkout form {
+.ccheckout form {
     width: 80%;
 }
-.checkout .form-group {
+.ccheckout .form-group {
     margin-bottom: 20px;
 }
-.checkout label {
+.ccheckout label {
     display: block;
     margin-bottom: 5px;
 }
-.checkout input,
-.checkout textarea,
-.checkout select {
+.ccheckout input,
+.ccheckout textarea,
+.ccheckout select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
