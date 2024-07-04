@@ -23,8 +23,9 @@
       <button class="cart" @click="showCart = true">Go to Cart</button>
     </div>
     <div v-if="showCart" class="cart-page">
-      div <div class="cart-page2">
+      <div class="cart-page2">
       <h1>Your Cart</h1>
+      <div class="cartitems">
       <div v-for="item in cart" :key="item.id" class="cart-item">
         <img :src="item.image" :alt="item.title" class="cart-item-image">
         <div class="cart-item-details">
@@ -37,10 +38,13 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="endcart">
       <div class="total-price">
         <p>Total Price: ${{ totalPrice }}</p>
       </div>
       <button class="backtostore" @click="showCart = false">Back to Store</button>
+    </div>
     </div>
   </div>
   </div>
@@ -65,7 +69,7 @@ export default {
       );
     },
     totalPrice() {
-      return this.cart.reduce((total, item) => {
+      return this.cart.reduce((total, item) => {//reduce method is used to calculate the total price of the cart
         return total + item.price * item.quantity;
       }, 0).toFixed(2);
     }
@@ -77,15 +81,15 @@ export default {
       this.products = data;
     },
     addToCart(product) {
-      const existingItem = this.cart.find(item => item.id === product.id);
+      const existingItem = this.cart.find(item => item.id === product.id);//checking if the product is already in the cart
       if (existingItem) {
         existingItem.quantity++;
       } else {
-        this.cart.push({ ...product, quantity: 1 });
+        this.cart.push({ ...product, quantity: 1 });//pushing a whole object into cart which is a product and quantity
       }
     },
-    updateQuantity(product, amount) {
-      const cartItem = this.cart.find(item => item.id === product.id);
+    updateQuantity(product, amount) {//this function is only when we are in the cart section not used for adding into cart
+      const cartItem = this.cart.find(item => item.id === product.id);//find method is used to find the product in the cart
       if (cartItem) {
         cartItem.quantity += amount;
         if (cartItem.quantity <= 0) {
@@ -253,6 +257,17 @@ body {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
 }
+.cartitems{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  /* overflow-y: auto; */
+  margin-top: 100px;
+  margin-bottom: 120px;
+  padding-top: 20px;
+}
 
 .cart-page2 {
   position: fixed;
@@ -263,21 +278,23 @@ body {
   background-color: white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   color: #34495e;
   z-index: 1000;
   overflow-y: auto;
-  padding-top: 50px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .cart-page h1 {
-  top: 0;
-  padding: 20px;
-  width: 100%;
+  position: fixed;
+  /* top: 10px; */
+  padding: 30px;
   text-align: center;
-  z-index: 1001;
+  /* z-index: 1001; */
+  background-color:white;
+  width: 29%;
+  color: black;
 }
 
 .cart-item {
@@ -301,14 +318,16 @@ body {
 }
 
 .cart-item-details {
-  flex: 1;
+  /* flex: 1; */
   display: flex;
   flex-direction: column;
+  /* justify-content: space-between; */
 }
 
 .quantity-control {
   display: flex;
   align-items: center;
+  /* justify-content: center; */
 }
 
 .quantity-control button {
@@ -324,13 +343,29 @@ body {
 .quantity-control button:hover {
   background-color: #2980b9;
 }
+.endcart{
+  position: fixed;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  width: 29%;
+  padding: 20px;
+  height: auto;
 
+}
 .total-price {
-  margin-top: 20px;
+  /* position: fixed; */
   font-size: 20px;
   font-weight: 700;
+  /* margin: 10px; */
+  /* background-color: white */
 }
 .backtostore{
+  /* position:fixed; */
+  bottom: 30px;
   background-color: #e74c3c;
   color: white;
   padding: 15px 25px;
@@ -341,9 +376,12 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
 }
 .backtostore:hover{
   background-color: #c0392b;
   transform: scale(1.05);
 }
+
+
 </style>
