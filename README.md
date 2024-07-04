@@ -5,7 +5,7 @@
 
 ### Home Page (Index)
 
-![Home Page](store.png)
+![Home Page](screen.png)
 
 The home page serves as the main landing page for our e-commerce store. It features:
 
@@ -19,7 +19,7 @@ The design focuses on user-friendly navigation and attractive product presentati
 
 ### Shopping Cart Page
 
-![Shopping Cart Page](cart.png)
+![Shopping Cart Page](screen2.png)
 
 The shopping cart page provides a comprehensive overview of the user's selected items:
 
@@ -33,7 +33,7 @@ This page is designed to give users full control over their selections before pr
 
 ### Checkout Page
 
-![Checkout Page](checkout.png)
+![Checkout Page](screen3.png)
 
 The checkout page streamlines the purchasing process:
 
