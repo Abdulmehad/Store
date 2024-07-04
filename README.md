@@ -1,5 +1,50 @@
-![Store Cover](store.png)
 # Store - Nuxt 3 E-commerce Application
+
+
+## Key Pages
+
+### Home Page (Index)
+
+![Home Page](store.png)
+
+The home page serves as the main landing page for our e-commerce store. It features:
+
+- A clean, modern design showcasing featured products
+- A responsive grid layout for product listings
+- Search functionality to help users find specific items
+- Filtering options for product categories
+- Add to cart buttons for quick shopping
+
+The design focuses on user-friendly navigation and attractive product presentation to engage visitors and encourage exploration of the store's offerings.
+
+### Shopping Cart Page
+
+![Shopping Cart Page](cart.png)
+
+The shopping cart page provides a comprehensive overview of the user's selected items:
+
+- Detailed list of products added to the cart
+- Product images, names, quantities, and individual prices
+- Total price calculation for all items in the cart
+- Options to update quantities or remove items
+- A clear call-to-action button to proceed to checkout
+
+This page is designed to give users full control over their selections before proceeding to purchase.
+
+### Checkout Page
+
+![Checkout Page](checkout.png)
+
+The checkout page streamlines the purchasing process:
+
+- Summary of cart contents
+- Form for shipping information
+- Options for selecting shipping method
+- Payment method selection
+- Order total with breakdown (subtotal, shipping, taxes)
+- Clear and prominent 'Place Order' button
+
+The checkout process is designed to be straightforward and secure, ensuring a smooth transaction experience for the user.
 
 ## Overview
 
