@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-      <div class="maincontainer">
+    <div class="ccontainer">
+      <div class="cmaincontainer">
         <div class="ccart-page">
           <div class="ccart-page2">
             <div class="cstartcart">
@@ -28,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="checkout">
+        <div class="ccheckout">
           <h1>Checkout</h1>
           <form @submit.prevent="submitForm">
             <div class="form-group">
@@ -128,18 +128,18 @@
     margin: 0;
     padding: 0;
 }
-.container {
+.ccontainer {
     display: flex;
     height: 100vh;
 }
-.maincontainer {
+.cmaincontainer {
   position: fixed;
   top: 0;
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.1);
 }
-.checkout {
+.ccheckout {
   position: fixed;
   top: 0;
   right: 0;
