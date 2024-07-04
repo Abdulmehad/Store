@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <title>Shopping Area</title>
-    <h1 class="t">Welcome to XYZ store</h1>
+    <h1 class="t">"Where Quality Meets Convenience"</h1>
     <searchbar @inputt="updateSearchQuery" />
     <div class="products">
       <div v-for="data in filteredProducts" :key="data.id">
@@ -20,7 +20,7 @@
     </div>
 
     <div class="showcart">
-      <button class="cart" @click="showCart = true">Go to Cart</button>
+      <button class="cart" @click="showCart = true"><font-awesome-icon icon="cart-shopping" /></button>
     </div>
     <div v-if="showCart" class="cart-page">
       <div class="cart-page2">

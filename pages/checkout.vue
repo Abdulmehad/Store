@@ -246,6 +246,17 @@
   /* margin: 10px; */
   /* background-color: white */
 }
+.ccartitems{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  /* overflow-y: auto; */
+  margin-top: 100px;
+  margin-bottom: 120px;
+  padding-top: 50px;
+}
 
 .ccart-item {
   background-color: white;
