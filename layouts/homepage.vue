@@ -9,10 +9,10 @@
           <div class="dropdown">
             <button class="dropbtn">Categories</button>
             <div class="dropdown-content">
-              <a href="#"><img src="https://static.independent.co.uk/2024/01/23/09/mens%20fashion%20week.png?width=1200&height=900&fit=crop" alt="Men's Clothing"> Men's Clothing</a>
-              <a href="#"><img src="https://t3.ftcdn.net/jpg/00/05/04/34/360_F_5043459_YVGGYgI4PTUJcD2IoXi6yb1wU7kLrtIF.jpg" alt="Electronics"> Electronics</a>
-              <a href="#"><img src="https://cdn.shopify.com/s/files/1/0162/2116/files/received_511517509874482.jpg?v=1620135114" alt="Women's Clothing"> Women's Clothing</a>
-              <a href="#"><img src="https://nicandsyd.com/cdn/shop/collections/handbags-hero_1024x1024.jpg?v=1633378855" alt="Fashion"> Fashion</a>
+              <a href="#" @click.prevent="selectCategory('men\'s clothing')"><img src="https://static.independent.co.uk/2024/01/23/09/mens%20fashion%20week.png?width=1200&height=900&fit=crop" alt="Men's Clothing"> Men's Clothing</a>
+              <a href="#" @click.prevent="selectCategory('electronics')"><img src="https://t3.ftcdn.net/jpg/00/05/04/34/360_F_5043459_YVGGYgI4PTUJcD2IoXi6yb1wU7kLrtIF.jpg" alt="Electronics"> Electronics</a>
+              <a href="#" @click.prevent="selectCategory('women\'s clothing')"><img src="https://cdn.shopify.com/s/files/1/0162/2116/files/received_511517509874482.jpg?v=1620135114" alt="Women's Clothing"> Women's Clothing</a>
+              <a href="#" @click.prevent="selectCategory('jewelery')"><img src="https://nicandsyd.com/cdn/shop/collections/handbags-hero_1024x1024.jpg?v=1633378855" alt="Fashion"> Fashion</a>
             </div>
           </div>
           <button class="gotocheckout" @click="checkout" >Checkout</button>
@@ -21,15 +21,24 @@
       <slot/>
     </div>
   </template>
-  <script>
-  export default {
-    methods: {
-      checkout() {
-        this.$router.push('/checkout');
-      }
+<script>
+export default {
+  data() {
+    return {
+      selectedCategory: null
+    };
+  },
+  methods: {
+    checkout() {
+      this.$router.push('/checkout');
+    },
+    selectCategory(category) {
+      this.selectedCategory = category;
+      this.$emit('category-selected', category);
     }
   }
-  </script>
+}
+</script>
   
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');

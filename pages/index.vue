@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <title>Shopping Area</title>
+    <!-- <homepages @category-selected="filterByCategory" /> -->
     <h1 class="t">"Where Quality Meets Convenience"</h1>
     <searchbar @inputt="updateSearchQuery" />
     <div class="products">
@@ -57,21 +58,27 @@
 
 
 <script>
-
+definePageMeta({
+  layout: 'homepage'
+})
 export default {
   data() {
     return {
       products: [],
       cart: [],
       searchQuery: '',
-      showCart: false
+      showCart: false,
     };
   },
   computed: {
     filteredProducts() {
-      return this.products.filter(product =>
-        product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return this.products
+        .filter(product =>
+          product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+        )
+        .filter(product =>
+          this.selectedCategory ? product.category === this.selectedCategory : true
+        );
     },
     totalPrice() {
       return this.cart.reduce((total, item) => {//reduce method is used to calculate the total price of the cart
@@ -95,6 +102,9 @@ export default {
       } else {
         this.cart.push({ ...product, quantity: 1 });//pushing a whole object into cart which is a product and quantity
       }
+    },
+    filterByCategory(category) {
+      this.selectedCategory = category;
     },
 
 
@@ -150,7 +160,6 @@ export default {
 body {
   background-color: #f0f0f0;
 }
-
 .container {
   display: flex;
   justify-content: center;
@@ -433,5 +442,100 @@ body {
   background-color:white;
   color: black;
 }
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
 
+  .t {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+
+  .card {
+    width: 100%;
+    height: auto;
+    margin: 10px 0;
+  }
+
+  .second-content img {
+    height: 150px;
+    width: 150px;
+  }
+
+  .first-content h1 {
+    font-size: 24px;
+  }
+
+  .first-content p {
+    font-size: 14px;
+  }
+
+  .addtocart {
+    font-size: 12px;
+    padding: 10px 15px;
+  }
+
+  .cart {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .cart-page {
+    margin-top: 80px;
+    margin-bottom: 80px;
+  }
+
+  .cart-item {
+    padding: 10px;
+    margin: 5px;
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .cart-item-image {
+    height: 40px;
+    width: 40px;
+  }
+
+  .quantity-control button {
+    padding: 3px 8px;
+    font-size: 12px;
+  }
+
+  .endcart {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .total-price {
+    font-size: 16px;
+  }
+
+  .gotocheckout {
+    bottom: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .startcart {
+    width: 100%;
+  }
+
+  .backtostore {
+    padding: 8px 12px;
+    font-size: 10px;
+    right: 10px;
+    top: 20px;
+  }
+
+  .cart-page h1 {
+    padding: 20px;
+  }
+  .cart-page2 {
+    width: 100%;
+  }
+}
 </style>

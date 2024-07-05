@@ -59,9 +59,9 @@
       :class="{ 'submit-disabled': !isFormValid }"
     >
       Place Order
-    </button>
-            
+    </button>           
           </form>
+          <nuxt-link class="mobileback" to="/">Empty Cart & Continue Shopping</nuxt-link>
         </div>
       </div>
     </div>
@@ -190,6 +190,7 @@
     display: inline-block;
     position:fixed;
     align-content: center;
+    /* right: 0; */
     right: 140px;
 }
 .submit:hover {
@@ -255,7 +256,7 @@
   /* overflow-y: auto; */
   margin-top: 100px;
   margin-bottom: 120px;
-  padding-top: 50px;
+  padding-top: 80px;
 }
 
 .ccart-item {
@@ -313,6 +314,20 @@
 .submit-disabled:hover {
   background-color: #95a5a6;
   transform: none;
+}
+.mobileback{
+  display: none;
+}
+@media (max-width: 768px){
+  .ccheckout{
+    width: 100%;
+  }
+  .mobileback{
+    display: block;
+    position: fixed;
+    bottom: 50px;
+  }
+
 }
 
 </style>

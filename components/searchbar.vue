@@ -14,6 +14,7 @@
         placeholder="Search products..."
       /> -->
     </div>
+    
   </template>
   
   <script>
