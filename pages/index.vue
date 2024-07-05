@@ -58,9 +58,7 @@
 
 
 <script>
-definePageMeta({
-  layout: 'homepage'
-})
+import store from '../store';
 export default {
   data() {
     return {
@@ -76,25 +74,30 @@ export default {
         .filter(product =>
           product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
         )
-        .filter(product =>
-          this.selectedCategory ? product.category === this.selectedCategory : true
-        );
     },
     totalPrice() {
       return this.cart.reduce((total, item) => {//reduce method is used to calculate the total price of the cart
         return total + item.price * item.quantity;
       }, 0).toFixed(2);
+    },
+    category(){
+      return store.state.category;
     }
   },
   methods: {
     itemInCart(id) {
     return this.cart.some(item => item.id === id);
   },
-    async fetchProducts() {
-      const response = await fetch('https://fakestoreapi.com/products');
-      const data = await response.json();
-      this.products = data;
-    },
+  async fetchProducts() {
+  let url = `https://fakestoreapi.com/products/${this.category}`;
+  // if (this.category) {
+  //   url += `/${this.category}`;
+  // }
+  const response = await fetch(url);
+  const data = await response.json();
+  this.products = data;
+  // console.log('Fetched products for category:', this.category);
+},
     addToCart(product) {
       const existingItem = this.cart.find(item => item.id === product.id);//checking if the product is already in the cart
       if (existingItem) {
@@ -133,6 +136,12 @@ export default {
     }
   },
   watch: {
+    category: {
+    handler(newCategory) {
+      this.fetchProducts();
+    },
+    immediate: true
+  },
     searchQuery(newQuery, oldQuery) {
       console.log(`Search query changed from ${oldQuery} to ${newQuery}`);
     },
@@ -143,9 +152,9 @@ export default {
       deep: true
     }
   },
-  mounted() {
-    this.fetchProducts();
-  }
+  // mounted() {
+  //   this.fetchProducts();
+  // }
 }
 </script>
 

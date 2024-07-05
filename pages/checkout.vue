@@ -51,8 +51,7 @@
                 <option value="paypal">PayPal</option>
                 <option value="cash">Cash on Delivery</option>
               </select>
-            </div>
-            <button 
+              <button 
       class="submit" 
       type="submit" 
       :disabled="!isFormValid"
@@ -60,8 +59,10 @@
     >
       Place Order
     </button>           
+            </div>
+
           </form>
-          <nuxt-link class="mobileback" to="/">Empty Cart & Continue Shopping</nuxt-link>
+          <nuxt-link @click="emptyitems" class="mobileback" to="/">Empty Cart & Continue Shopping</nuxt-link>
         </div>
       </div>
     </div>
@@ -89,6 +90,10 @@
       }
     },
     methods: {
+          emptyitems(){
+        localStorage.removeItem('cart');
+        localStorage.removeItem('totalPrice');
+      },
       submitForm() {
         if (this.isFormValid) {
           // Process the order here (e.g., send to server)
@@ -181,15 +186,18 @@
   border-radius: 50px;
   font-size: 16px;
   font-weight: 600;
+  margin: 20px 0;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 10px;
   text-decoration:none;
-    text-align: center;
-    display: inline-block;
+  text-align: center;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     position:fixed;
-    align-content: center;
+    bottom: 60PX;
     /* right: 0; */
     right: 140px;
 }
@@ -326,6 +334,13 @@
     display: block;
     position: fixed;
     bottom: 50px;
+  }
+  .submit{
+    position: fixed;
+    width: 90%;
+    left: 0;
+    right: 0;
+    margin: 20px;
   }
 
 }
