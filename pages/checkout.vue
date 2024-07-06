@@ -92,11 +92,13 @@ export default {
   },
   methods: {
     submitForm() {
-      if (this.isFormValid) {
-        window.alert('Order Placed!');
+      if (this.isFormValid && this.carts.length > 0) {
+        window.alert('Your Order has been placed! ');
         this.$router.push('/');
+        store.commit('setCart', []);
+        store.commit('setTotalPrice', 0);
       } else {
-        window.alert('Please fill out all fields before submitting.');
+        window.alert('Please add items to the cart and then fill in all the details!');
       }
     },
     updateQuantity(product, amount) {
