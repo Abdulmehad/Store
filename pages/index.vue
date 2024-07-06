@@ -2,24 +2,39 @@
   <div class="container">
     <title>Shopping Area</title>
     <h1 class="t">"Where Quality Meets Convenience"</h1>
-    <searchbar @inputt="updateSearchQuery" />
+    <searchbar @input="updateSearchQuery" />
     <div class="products">
       <div v-for="data in filteredProducts" :key="data.id">
         <div class="card">
           <div class="second-content">
-            <img :src="data.image" :alt="data.title">
+            <img :src="data.image" :alt="data.title" />
           </div>
           <div class="first-content">
             <h1>{{ data.title }}</h1>
-            <p><span>Price: $</span> {{ data.price }}</p>
-            <button v-if="!itemInCart(data.id)" class="addtocart" @click="addToCart(data)">Add to Cart</button>
-            <button style="background-color: #e74c3c" v-else class="addtocart" @click="removeFromCart(data)">Remove Item</button>
+            <p><span>Price: $</span>{{ data.price }}</p>
+            <button
+              v-if="!itemInCart(data.id)"
+              class="addtocart"
+              @click="addToCart(data)"
+            >
+              Add to Cart
+            </button>
+            <button
+              style="background-color: #e74c3c"
+              v-else
+              class="addtocart"
+              @click="removeFromCart(data.id)"
+            >
+              Remove Item
+            </button>
           </div>
         </div>
       </div>
     </div>
     <div class="showcart">
-      <button class="cart" @click="showCart = true"><font-awesome-icon icon="cart-shopping" /></button>
+      <button class="cart" @click="showCart = true">
+        <font-awesome-icon icon="cart-shopping" />
+      </button>
     </div>
     <div v-if="showCart" class="cart-page">
       <div class="cart-page2">
@@ -29,7 +44,7 @@
         </div>
         <div class="cartitems">
           <div v-for="item in carts" :key="item.id" class="cart-item">
-            <img :src="item.image" :alt="item.title" class="cart-item-image">
+            <img :src="item.image" :alt="item.title" class="cart-item-image" />
             <div class="cart-item-details">
               <p>{{ item.title }}</p>
               <p>Price: ${{ item.price }}</p>
@@ -45,27 +60,28 @@
           <div class="total-price">
             <p>Total Price: ${{ totalprices }}</p>
           </div>
-          <button @click="goToCheckout" class="gotocheckout">Go to Checkout</button>
+          <button @click="goToCheckout" class="gotocheckout">
+            Go to Checkout
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-import store from '../store';
+import store from "../store";
 
 export default {
   data() {
     return {
       products: [],
-      searchQuery: '',
+      searchQuery: "",
       showCart: false,
     };
   },
   computed: {
     filteredProducts() {
-      return this.products.filter(product =>
+      return this.products.filter((product) =>
         product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
@@ -77,15 +93,15 @@ export default {
     },
     totalprices() {
       return store.getters.getTotalPrice;
-    }
+    },
   },
   methods: {
     commitCartChanges() {
-      store.commit('setCart', this.carts);
-      store.commit('setTotalPrice', this.calculateTotalPrice());
+      store.commit("setCart", this.carts);
+      store.commit("setTotalPrice", this.calculateTotalPrice());
     },
     itemInCart(id) {
-      return this.carts.some(item => item.id === id);
+      return this.carts.some((item) => item.id === id);
     },
     async fetchProducts() {
       const url = `https://fakestoreapi.com/products/${this.category}`;
@@ -94,7 +110,7 @@ export default {
       this.products = data;
     },
     addToCart(product) {
-      const existingItem = this.carts.find(item => item.id === product.id);
+      const existingItem = this.carts.find((item) => item.id === product.id);
       if (existingItem) {
         existingItem.quantity++;
       } else {
@@ -103,43 +119,62 @@ export default {
       this.commitCartChanges();
     },
     updateQuantity(product, amount) {
-  const cartItem = this.carts.find(item => item.id === product.id);
-  if (cartItem) {
-    const newQuantity = cartItem.quantity + amount;
-    if (newQuantity <= 0) {
-      // Remove the item from the cart if the quantity is 0 or less
-      this.removeFromCart(product);
-    } else {
-      // Update the quantity in the cart state
-      cartItem.quantity = newQuantity;
-      this.commitCartChanges();
-    }
-  }
-},
+      const cartItem = this.carts.find((item) => item.id === product.id);
+      if (cartItem) {
+        cartItem.quantity += amount;
+        if (cartItem.quantity <= 0) {
+          this.removeFromCart(product.id);
+        } else {
+          this.updateCartItem(cartItem);
+        }
+        this.updateTotalPrice();
+      }
+    },
+    updateCartItem(updatedItem) {
+      const newCart = [];
+      for (const item of this.carts) {
+        if (item.id === updatedItem.id) {
+          newCart.push(updatedItem);
+        } else {
+          newCart.push(item);
+        }
+      }
+      store.commit("setCart", newCart);
+    },
+    removeFromCart(itemId) {
+      const newCart = this.carts.filter((item) => item.id !== itemId);
+      store.commit("setCart", newCart);
+    },
+    updateTotalPrice() {
+      const newTotalPrice = this.carts
+        .reduce((total, item) => total + item.price * item.quantity, 0)
+        .toFixed(2);
+      store.commit("setTotalPrice", newTotalPrice);
+    },
     updateSearchQuery(value) {
       this.searchQuery = value;
     },
-    removeFromCart(product) {
-      this.carts = this.carts.filter(item => item.id !== product.id);
-      this.commitCartChanges();
-    },
     goToCheckout() {
-      this.$router.push('/checkout');
+      this.$router.push("/checkout");
     },
     calculateTotalPrice() {
-      return this.carts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-    }
+      return this.carts
+        .reduce((total, item) => total + item.price * item.quantity, 0)
+        .toFixed(2);
+    },
   },
   watch: {
     category: {
       handler() {
         this.fetchProducts();
       },
-      immediate: true
-    }
-  }
-}
+      immediate: true,
+    },
+  },
+};
 </script>
+
+
 
 
 
