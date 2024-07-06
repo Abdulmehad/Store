@@ -3,6 +3,7 @@ export default createStore({
     state:{
         category:'',
         cart: [],
+        totalPrice: 0
     },
     mutations:{
         setCategory(state, newcategory){
@@ -11,9 +12,13 @@ export default createStore({
         setCart(state, newcart){
             state.cart = newcart;
         },
+        setTotalPrice(state, newtotalprice){
+            state.totalPrice = newtotalprice;
+        }
     },
     getters:{
         getCategory: state => state.category,
-        getCart: state => state.cart
+        getCart: state => state.cart,
+        getTotalPrice: state => state.totalPrice
     }
 })

@@ -1,131 +1,139 @@
 <template>
-    <div class="ccontainer">
-      <div class="cmaincontainer">
-        <div class="ccart-page">
-          <div class="ccart-page2">
-            <div class="cstartcart">
-              <h1>Your Cart</h1>
-            </div>
-            <div class="ccartitems">
-              <div v-for="item in cart" :key="item.id" class="ccart-item">
-                <img :src="item.image" :alt="item.title" class="ccart-item-image">
-                <div class="ccart-item-details">
-                  <p>{{ item.title }}</p>
-                  <p>Price: ${{ item.price }}</p>
-                  <div class="cquantity-control">
-                    <button @click="updateQuantity(item, -1)">-</button>
-                    <span>{{ item.quantity }}</span>
-                    <button @click="updateQuantity(item, 1)">+</button>
-                  </div>
+  <div class="ccontainer">
+    <div class="cmaincontainer">
+      <div class="ccart-page">
+        <div class="ccart-page2">
+          <div class="cstartcart">
+            <h1>Your Cart</h1>
+          </div>
+          <div class="ccartitems">
+            <div v-for="item in carts" :key="item.id" class="ccart-item">
+              <img :src="item.image" :alt="item.title" class="ccart-item-image">
+              <div class="ccart-item-details">
+                <p>{{ item.title }}</p>
+                <p>Price: ${{ item.price }}</p>
+                <div class="cquantity-control">
+                  <button @click="updateQuantity(item, -1)">-</button>
+                  <span>{{ item.quantity }}</span>
+                  <button @click="updateQuantity(item, 1)">+</button>
                 </div>
               </div>
             </div>
-            <div class="cendcart">
-              <div class="ctotal-price">
-                <p>Total Price: ${{ totalPrice }}</p>
-              </div>
-              <nuxt-link to="/">Empty Cart & Continue Shopping</nuxt-link>
+          </div>
+          <div class="cendcart">
+            <div class="ctotal-price">
+              <p>Total Price: ${{ totalprices }}</p>
             </div>
+            <nuxt-link to="/">Continue Shopping</nuxt-link>
           </div>
         </div>
-        <div class="ccheckout">
-          <h1>Checkout</h1>
-          <form @submit.prevent="submitForm">
-            <div class="form-group">
-              <label for="name">Name:</label>
-              <input type="text" id="name" v-model="name" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" id="email" v-model="email" required>
-            </div>
-            <div class="form-group">
-              <label for="address">Address:</label>
-              <textarea id="address" v-model="address" required></textarea>
-            </div>
-            <div class="form-group">
-              <label for="payment">Payment Method:</label>
-              <select id="payment" v-model="paymentMethod" required>
-                <option value="">Select Payment Method</option>
-                <option value="credit">Credit Card</option>
-                <option value="paypal">PayPal</option>
-                <option value="cash">Cash on Delivery</option>
-              </select>
-              <button 
-      class="submit" 
-      type="submit" 
-      :disabled="!isFormValid"
-      :class="{ 'submit-disabled': !isFormValid }"
-    >
-      Place Order
-    </button>           
-            </div>
-
-          </form>
-          <nuxt-link @click="emptyitems" class="mobileback" to="/">Empty Cart & Continue Shopping</nuxt-link>
-        </div>
+      </div>
+      <div class="ccheckout">
+        <h1>Checkout</h1>
+        <form @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" v-model="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" v-model="email" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <textarea id="address" v-model="address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="payment">Payment Method:</label>
+            <select id="payment" v-model="paymentMethod" required>
+              <option value="">Select Payment Method</option>
+              <option value="credit">Credit Card</option>
+              <option value="paypal">PayPal</option>
+              <option value="cash">Cash on Delivery</option>
+            </select>
+            <button 
+              class="submit" 
+              type="submit" 
+              :disabled="!isFormValid"
+              :class="{ 'submit-disabled': !isFormValid }"
+            >
+              Place Order
+            </button>           
+          </div>
+        </form>
+        <nuxt-link class="mobileback" to="/">Continue Shopping</nuxt-link>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        cart: [],
-        totalPrice: 0,
-        name: '',
-        email: '',
-        address: '',
-        paymentMethod: ''
-      };
+  </div>
+</template>
+
+<script>
+import store from '~/store';
+
+export default {
+  data() {
+    return {
+      name: '',
+      email: '',
+      address: '',
+      paymentMethod: ''
+    };
+  },
+  computed: {
+    isFormValid() {
+      return this.name && this.email && this.address && this.paymentMethod;
     },
-    mounted() {
-      this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      this.totalPrice = localStorage.getItem('totalPrice') || 0;
+    carts() {
+      return store.getters.getCart;
     },
-    computed: {
-      isFormValid() {
-        return this.name && this.email && this.address && this.paymentMethod;
+    totalprices() {
+      return store.getters.getTotalPrice;
+    }
+  },
+  methods: {
+    submitForm() {
+      if (this.isFormValid) {
+        window.alert('Order Placed!');
+        this.$router.push('/');
+      } else {
+        window.alert('Please fill out all fields before submitting.');
       }
     },
-    methods: {
-        emptyitems(){
-        localStorage.removeItem('cart');
-        localStorage.removeItem('totalPrice');
-      },
-      submitForm() {
-        if (this.isFormValid) {
-          // Process the order here (e.g., send to server)
-          window.alert('Order Placed!');
-          
-          // Clear the cart and total price from localStorage
-          localStorage.removeItem('cart');
-          localStorage.removeItem('totalPrice');
-          
-          // Navigate back to the index page
-          this.$router.push('/');
+    updateQuantity(product, amount) {
+      const cartItem = this.carts.find(item => item.id === product.id);
+      if (cartItem) {
+        cartItem.quantity += amount;
+        if (cartItem.quantity <= 0) {
+          this.removeFromCart(product.id);
         } else {
-          window.alert('Please fill out all fields before submitting.');
+          this.updateCartItem(cartItem);
         }
-      },
-      updateQuantity(product, amount) {
-        const cartItem = this.cart.find(item => item.id === product.id);
-        if (cartItem) {
-          cartItem.quantity += amount;
-          if (cartItem.quantity <= 0) {
-            this.cart = this.cart.filter(item => item.id !== product.id);
-          }
-          this.totalPrice = this.cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-          
-          // Update localStorage
-          localStorage.setItem('cart', JSON.stringify(this.cart));
-          localStorage.setItem('totalPrice', this.totalPrice);
-        }
-      },
+        this.updateTotalPrice();
+      }
     },
-  };
-  </script>
+    updateCartItem(updatedItem) {
+      const newCart = [];
+for (const item of this.carts) {
+  if (item.id === updatedItem.id) {
+    newCart.push(updatedItem);
+  } else {
+    newCart.push(item);
+  }
+}
+      store.commit('setCart', newCart);
+    },
+    removeFromCart(itemId) {
+      const newCart = this.carts.filter(item => item.id !== itemId);
+      store.commit('setCart', newCart);
+    },
+    updateTotalPrice() {
+      const newTotalPrice = this.carts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+      store.commit('setTotalPrice', newTotalPrice);
+    }
+  },
+};
+</script>
+
   
   <style>
 * {

@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <title>Shopping Area</title>
-    <!-- <homepages @category-selected="filterByCategory" /> -->
     <h1 class="t">"Where Quality Meets Convenience"</h1>
     <searchbar @inputt="updateSearchQuery" />
     <div class="products">
@@ -19,7 +18,6 @@
         </div>
       </div>
     </div>
-
     <div class="showcart">
       <button class="cart" @click="showCart = true"><font-awesome-icon icon="cart-shopping" /></button>
     </div>
@@ -30,7 +28,7 @@
           <button @click="showCart = false" class="backtostore">X</button>
         </div>
         <div class="cartitems">
-          <div v-for="item in cart" :key="item.id" class="cart-item">
+          <div v-for="item in carts" :key="item.id" class="cart-item">
             <img :src="item.image" :alt="item.title" class="cart-item-image">
             <div class="cart-item-details">
               <p>{{ item.title }}</p>
@@ -45,118 +43,105 @@
         </div>
         <div class="endcart">
           <div class="total-price">
-            <p>Total Price: ${{ totalPrice }}</p>
-           
+            <p>Total Price: ${{ totalprices }}</p>
           </div>
-          <nuxt-link @click="goToCheckout" class="gotocheckout" to="/checkout">Go to Checkout</nuxt-link>
+          <button @click="goToCheckout" class="gotocheckout">Go to Checkout</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
-
 <script>
 import store from '../store';
+
 export default {
   data() {
     return {
       products: [],
-      cart: [],
       searchQuery: '',
       showCart: false,
     };
   },
   computed: {
     filteredProducts() {
-      return this.products
-        .filter(product =>
-          product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-        )
+      return this.products.filter(product =>
+        product.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
-    totalPrice() {
-      return this.cart.reduce((total, item) => {//reduce method is used to calculate the total price of the cart
-        return total + item.price * item.quantity;
-      }, 0).toFixed(2);
-    },
-    category(){
+    category() {
       return store.state.category;
+    },
+    carts() {
+      return store.state.cart;
+    },
+    totalprices() {
+      return store.getters.getTotalPrice;
     }
   },
   methods: {
+    commitCartChanges() {
+      store.commit('setCart', this.carts);
+      store.commit('setTotalPrice', this.calculateTotalPrice());
+    },
     itemInCart(id) {
-    return this.cart.some(item => item.id === id);
-  },
-  async fetchProducts() {
-  let url = `https://fakestoreapi.com/products/${this.category}`;
-  // if (this.category) {
-  //   url += `/${this.category}`;
-  // }
-  const response = await fetch(url);
-  const data = await response.json();
-  this.products = data;
-  // console.log('Fetched products for category:', this.category);
-},
+      return this.carts.some(item => item.id === id);
+    },
+    async fetchProducts() {
+      const url = `https://fakestoreapi.com/products/${this.category}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      this.products = data;
+    },
     addToCart(product) {
-      const existingItem = this.cart.find(item => item.id === product.id);//checking if the product is already in the cart
+      const existingItem = this.carts.find(item => item.id === product.id);
       if (existingItem) {
         existingItem.quantity++;
       } else {
-        this.cart.push({ ...product, quantity: 1 });//pushing a whole object into cart which is a product and quantity
+        this.carts.push({ ...product, quantity: 1 });
       }
+      this.commitCartChanges();
     },
-    filterByCategory(category) {
-      this.selectedCategory = category;
-    },
-
-
-    goToCheckout() {
-  localStorage.setItem('cart', JSON.stringify(this.cart));
-  localStorage.setItem('totalPrice', this.totalPrice);
-  // this.$router.push('/checkout');
+    updateQuantity(product, amount) {
+  const cartItem = this.carts.find(item => item.id === product.id);
+  if (cartItem) {
+    const newQuantity = cartItem.quantity + amount;
+    if (newQuantity <= 0) {
+      // Remove the item from the cart if the quantity is 0 or less
+      this.removeFromCart(product);
+    } else {
+      // Update the quantity in the cart state
+      cartItem.quantity = newQuantity;
+      this.commitCartChanges();
+    }
+  }
 },
-
-
-
-    updateQuantity(product, amount) {//this function is only when we are in the cart section not used for adding into cart
-      const cartItem = this.cart.find(item => item.id === product.id);//find method is used to find the product in the cart
-      if (cartItem) {
-        cartItem.quantity += amount;
-        if (cartItem.quantity <= 0) {
-          this.cart = this.cart.filter(item => item.id !== product.id);
-        }
-      }
-    },
     updateSearchQuery(value) {
-      this.searchQuery = value; // Update searchQuery with the emitted value
+      this.searchQuery = value;
     },
     removeFromCart(product) {
-      this.cart = this.cart.filter(item => item.id !== product.id);
+      this.carts = this.carts.filter(item => item.id !== product.id);
+      this.commitCartChanges();
+    },
+    goToCheckout() {
+      this.$router.push('/checkout');
+    },
+    calculateTotalPrice() {
+      return this.carts.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     }
   },
   watch: {
     category: {
-    handler(newCategory) {
-      this.fetchProducts();
-    },
-    immediate: true
-  },
-    searchQuery(newQuery, oldQuery) {
-      console.log(`Search query changed from ${oldQuery} to ${newQuery}`);
-    },
-    cart: {
-      handler(newCart, oldCart) {
-        console.log('Cart updated from', oldCart, 'to', newCart);
+      handler() {
+        this.fetchProducts();
       },
-      deep: true
+      immediate: true
     }
-  },
-  // mounted() {
-  //   this.fetchProducts();
-  // }
+  }
 }
 </script>
+
+
 
 <style>
 * {
