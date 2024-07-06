@@ -2,7 +2,7 @@
   <div class="container">
     <title>Shopping Area</title>
     <h1 class="t">"Where Quality Meets Convenience"</h1>
-    <searchbar @input="updateSearchQuery" />
+    <searchbar @inputt="updateSearchQuery" />
     <div class="products">
       <div v-for="data in filteredProducts" :key="data.id">
         <div class="card">
