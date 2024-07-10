@@ -353,8 +353,8 @@ body {
   padding: 15px;
   margin: 10px;
   border-radius: 10px;
-  width: 80%;
-  max-width: 400px;
+  width: 300px;
+  /* max-width: 400px; */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
@@ -481,11 +481,11 @@ body {
     margin: 20px 0;
   }
 
-  .card {
+  /* .card {
     width: 100%;
     height: auto;
     margin: 10px 0;
-  }
+  } */
 
   .second-content img {
     height: 150px;
@@ -520,8 +520,7 @@ body {
   .cart-item {
     padding: 10px;
     margin: 5px;
-    width: 90%;
-    max-width: 300px;
+    width: 300px;
   }
 
   .cart-item-image {
@@ -565,6 +564,9 @@ body {
   }
   .cart-page2 {
     width: 100%;
+  }
+  .t{
+    font-size: 20px;
   }
 }
 </style>

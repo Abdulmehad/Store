@@ -137,7 +137,51 @@ export default {
   height: 40px;
   margin-left: 20px;
   cursor: pointer;
-}
+}@media (max-width: 768px) {
+  .header1 {
+    height: 60px;
+    padding: 0 10px;
+  }
 
+  .left-section {
+    gap: 8px;
+  }
+
+  .img1 {
+    width: 30px;
+    height: 34px;
+  }
+
+  .he {
+    font-size: 14px;
+    margin-left: 6px;
+  }
+
+  .dropbtn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .dropdown-content {
+    min-width: 180px;
+  }
+
+  .dropdown-content a {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .dropdown-content img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+  .shopping-cart {
+    width: 28px;
+    height: 28px;
+    margin-left: 12px;
+  }
+}
     
 </style>  

@@ -270,6 +270,11 @@ for (const item of this.carts) {
   margin-bottom: 120px; */
   padding-top: 20px;
   height: calc(100vh - 220px); /* Adjust based on your header and footer height */
+  /* border: #2980b9 2px solid; */
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: whitesmoke;
+  width: 500px;
 }
 
 .ccart-item {
@@ -278,7 +283,7 @@ for (const item of this.carts) {
   padding: 15px;
   margin: 10px;
   border-radius: 10px;
-  width: 80%;
+  width: 300px;
   max-width: 400px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
