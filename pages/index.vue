@@ -101,7 +101,7 @@ export default {
       store.commit("setTotalPrice", this.calculateTotalPrice());
     },
     itemInCart(id) {
-      return this.carts.some((item) => item.id === id);
+      return this.carts.some((item) => item.id === id);//some method is used to check if at least one element in the array satisfies the condition and it returns a boolean value
     },
     async fetchProducts() {
       const url = `https://fakestoreapi.com/products/${this.category}`;
@@ -119,7 +119,7 @@ export default {
       this.commitCartChanges();
     },
     updateQuantity(product, amount) {
-      const cartItem = this.carts.find((item) => item.id === product.id);
+      const cartItem = this.carts.find((item) => item.id === product.id);//find method is used to find the first element in the array that satisfies the condition and it returns the element itself
       if (cartItem) {
         cartItem.quantity += amount;
         if (cartItem.quantity <= 0) {
@@ -142,12 +142,12 @@ export default {
       store.commit("setCart", newCart);
     },
     removeFromCart(itemId) {
-      const newCart = this.carts.filter((item) => item.id !== itemId);
+      const newCart = this.carts.filter((item) => item.id !== itemId);//filter method is used to filter out elements that satisfy the condition and it returns a new array
       store.commit("setCart", newCart);
     },
     updateTotalPrice() {
       const newTotalPrice = this.carts
-        .reduce((total, item) => total + item.price * item.quantity, 0)
+        .reduce((total, item) => total + item.price * item.quantity, 0)//.reduce function is used to reduce a function into a single value
         .toFixed(2);
       store.commit("setTotalPrice", newTotalPrice);
     },
@@ -481,11 +481,11 @@ body {
     margin: 20px 0;
   }
 
-  /* .card {
-    width: 100%;
+  .card {
+    /* width: 100%; */
     height: auto;
-    margin: 10px 0;
-  } */
+    /* margin: 10px 0; */
+  }
 
   .second-content img {
     height: 150px;
